@@ -25,15 +25,14 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="40dp"
         android:onClick="prikaziIzvajalce"
         android:text="Prikazi izvajalce"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

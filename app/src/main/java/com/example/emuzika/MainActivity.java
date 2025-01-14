@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
+            izvajalci.setText("");
 
             for (String row: data) {
                 String currentText = izvajalci.getText().toString();
