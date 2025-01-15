@@ -33,7 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
-public class AddIzvajalecActivity extends AppCompatActivity {
+public class dodajIzvajalcaActivity extends AppCompatActivity {
 
     private TextView status;
     private EditText id;
@@ -54,6 +54,7 @@ public class AddIzvajalecActivity extends AppCompatActivity {
         opis = (EditText) findViewById(R.id.teOpis);
         poslusalci = (EditText) findViewById(R.id.tePoslusalci);
         status = (TextView) findViewById(R.id.status);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
 
     }
