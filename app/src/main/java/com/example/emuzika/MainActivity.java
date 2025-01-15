@@ -190,4 +190,13 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public static final String EXTRA_MESSAGE = "com.example.emuzika.MESSAGE";
+
+    public void dodajIzvajalcaActivity (View view) {
+        Intent intent = new Intent(this,dodajIzvajalcaActivity.class);
+        String message = "Dodaj izvajalca v seznam.";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+
 }
