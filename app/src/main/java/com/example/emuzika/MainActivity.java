@@ -34,30 +34,34 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     private TextView izvajalci;
     private String url = "https://emuzika-eccjbjc2b2hyg7by.italynorth-01.azurewebsites.net/api/v1/izvajalec";
+    private TextView pesmi;
+    private String urlp = "https://emuzika-eccjbjc2b2hyg7by.italynorth-01.azurewebsites.net/api/v1/Pesmi";
+
+    private TextView albumi;
+    private String urla = "https://emuzika-eccjbjc2b2hyg7by.italynorth-01.azurewebsites.net/api/v1/Album";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*EdgeToEdge.enable(this);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        }); */
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         izvajalci = (TextView) findViewById(R.id.izvajalci);
+        pesmi = (TextView) findViewById(R.id.pesmi);
+        albumi = (TextView) findViewById(R.id.albumi);
 
 
     }
 
     public void prikaziIzvajalce(View view) {
+        pesmi.setText("");
+        albumi.setText("");
         if(view != null) {
             JsonArrayRequest request = new JsonArrayRequest(url,jsonArrayListener, errorListener);
             requestQueue.add(request);
         }
     }
+
 
     private Response.Listener<JSONArray> jsonArrayListener = new Response.Listener<JSONArray>() {
         @Override
@@ -89,6 +93,97 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private Response.ErrorListener errorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.d("REST error", error.getMessage());
+        }
+    };
+
+    public void prikaziPesmi(View view) {
+        izvajalci.setText("");
+        albumi.setText("");
+        if (view != null) {
+            JsonArrayRequest requestp = new JsonArrayRequest(urlp, jsonArrayListenerp, errorListenerp);
+            requestQueue.add(requestp);
+        }
+    }
+    private Response.Listener<JSONArray> jsonArrayListenerp = new Response.Listener<JSONArray>() {
+
+        @Override
+        public void onResponse(JSONArray response) {
+            ArrayList<String> data = new ArrayList<>();
+
+            for (int i = 0; i < response.length(); i++) {
+                try {
+                    JSONObject object = response.getJSONObject(i);
+                    String naslov = object.getString("naslov");
+                    int dolzina = object.getInt("dolzina");
+                    int ocena = object.getInt("ocena");
+
+                    data.add(naslov + "\n" + "Dolžina:" + dolzina + "\n" + "Ocena: " + ocena);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return;
+
+                }
+            }
+            pesmi.setText("");
+
+            for (String row: data) {
+                String currentText = pesmi.getText().toString();
+                pesmi.setText(currentText + "\n\n" + row);
+            }
+
+        }
+    };
+    private Response.ErrorListener errorListenerp = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.d("REST error", error.getMessage());
+        }
+    };
+
+    public void prikaziAlbume(View view) {
+        izvajalci.setText("");
+        pesmi.setText("");
+        if (view != null) {
+            JsonArrayRequest requesta = new JsonArrayRequest(urla, jsonArrayListenera, errorListenera);
+            requestQueue.add(requesta);
+        }
+    }
+    private Response.Listener<JSONArray> jsonArrayListenera = new Response.Listener<JSONArray>() {
+
+        @Override
+        public void onResponse(JSONArray response) {
+            ArrayList<String> data = new ArrayList<>();
+
+            for (int i = 0; i < response.length(); i++) {
+                try {
+                    JSONObject object = response.getJSONObject(i);
+                    String ime = object.getString("ime");
+                    String opis = object.getString("opis");
+                    String datumIzdaje = object.getString("datumIzdaje");
+
+
+                    data.add(ime + "\n" + "Opis:" + opis + "\n" + "Datum izdaje: " + datumIzdaje);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return;
+
+                }
+            }
+            albumi.setText("");
+
+            for (String row: data) {
+                String currentText = albumi.getText().toString();
+                albumi.setText(currentText + "\n\n" + row);
+            }
+
+        }
+    };
+    private Response.ErrorListener errorListenera = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
             Log.d("REST error", error.getMessage());
